@@ -9,11 +9,10 @@ public class Main {
 		TBAConnector connection = new TBAConnector();
 		
 		try {
-			connection.run("https://www.thebluealliance.com/api/v3/team/frc1197/events/simple");
+			connection.run("https://www.thebluealliance.com/api/v3/team/frc1197/event/2004ca/matches/simple");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 }

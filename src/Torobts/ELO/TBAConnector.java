@@ -22,12 +22,15 @@ public class TBAConnector {
 		//jsonraw = jsonraw.substring(1, jsonraw.length() - 1);
 		//jsonraw = jsonraw.trim();
 		JSONArray json = new JSONArray(jsonraw);
-		JSONObject one = (JSONObject) json.get(0);
+		JSONObject object;
 		
 		//JSONArray Cities = json.getJSONArray("city");
-		System.out.println(one.get("city"));
-		
-		
+		/*for(int i = 0; i < json.length(); i++) {
+			object = (JSONObject) json.get(i);
+			if(object.get("name").toString().contains("Regional")) {
+				//System.out.println(object.get("city"));
+			}		*/	
+		//}	
 		return response.toString();
 	}
 	
