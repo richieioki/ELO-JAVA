@@ -26,13 +26,13 @@ public class ExecuteSearch {
 	public void RunSearch(String TeamKey) throws IOException {
 		Queue<String> Events = new LinkedList<String>();
 		if(!TeamKey.contains("1197")) {
-			System.out.println("NOT TORBOTS");
+			Events = m_calculator.GetEventList(TeamKey);
 		} else {
 			Events = m_calculator.GetTorbotEvents();
 		}
 		
 		
-		for(int i = Events.size()-2; i < Events.size(); i++) {
+		for(int i = Events.size()-1; i < Events.size(); i++) {
 			//get matches for Torbots
 			JSONArray Matches = m_connection.run(BASE_URL + "/team/" + TeamKey + "/event/" + Events.poll().trim() + "/matches/simple");
 			
@@ -48,18 +48,25 @@ public class ExecuteSearch {
 				JSONObject BLUE_ALLIANCE = ALLIANCES.getJSONObject("blue");
 				JSONArray BLUE_TEAMKEYS = BLUE_ALLIANCE.getJSONArray("team_keys");
 				
+				String RESULT = Match.getString("winning_alliance");
+				
+				int RedELO = 0, BlueELO = 0;
+				int RedAverage = 0, BlueAverage;
 				//check if red have ELO				
 				for(int z = 0; z < RED_TEAMKEYS.length(); z++) {
 					if(m_calculator.isNewTeam(RED_TEAMKEYS.getString(z))) {
-						m_calculator.NewTeam(RED_TEAMKEYS.getString(z));
+						m_calculator.NewTeam(RED_TEAMKEYS.getString(z).trim());
 						
-						//calculate ELO for this new team
+						//calculate ELO for this new team						
 						System.out.println("ADDING NEW TEAM " + RED_TEAMKEYS.getString(z));
+						RunSearch(RED_TEAMKEYS.getString(z));
 					}
 					
 					//once you have ELO then calculate average for average ELO for alliance
+					RedELO += m_calculator.GetELO(RED_TEAMKEYS.getString(z).trim());
 				}
 				
+				//System.out.println("RED ELO FOR MATCH " + Match.getInt("match_number") + " is " + RedELO);
 				
 				//check if blue have ELO
 				for(int z = 0; z < BLUE_TEAMKEYS.length(); z++) {
@@ -68,11 +75,26 @@ public class ExecuteSearch {
 						
 						//calculate ELO for this new team
 						System.out.println("ADDING NEW TEAM " + BLUE_TEAMKEYS.getString(z));
+						RunSearch(BLUE_TEAMKEYS.getString(z).trim());
 					}
 					
 					//once you have ELO then calculate average for average ELO for alliance
-				}				
-
+					BlueELO += m_calculator.GetELO(RED_TEAMKEYS.getString(z).trim());
+				}		
+				
+				//System.out.println("BLUE ELO FOR MATCH " + Match.getInt("match_number") + " is " + BlueELO);
+				
+				//completed calculating the ELOs for the matches
+				RedAverage = RedELO / RED_TEAMKEYS.length();
+				BlueAverage = BlueELO / BLUE_TEAMKEYS.length();
+				
+				float RedWinPercent, BlueWinPercent;
+				float[] percentages = m_calculator.CalculateWinPercentages(RedAverage, BlueAverage);
+				RedWinPercent = percentages[0];
+				BlueWinPercent = percentages[1];
+				
+				//Next get the actual result of the match so that we can change the ELO of the teams;
+				System.out.println("THE WINNING ALLIANCE IS " + RESULT);
 			}
 			
 		}

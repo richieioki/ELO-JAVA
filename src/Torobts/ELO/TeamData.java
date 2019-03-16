@@ -7,7 +7,6 @@ public class TeamData {
 	private String Key;
 	
 	public TeamData(String Key) {
-		this.TeamNumber = TeamNumber;
 		this.Key = Key;
 		ELO = 1000;
 	}
