@@ -3,7 +3,7 @@ package Torobts.ELO;
 //Simple Data class to hold key information together
 public class TeamData {
 	private int TeamNumber;
-	private int ELO;
+	private float ELO;
 	private String Key;
 	
 	public TeamData(String Key) {
@@ -15,12 +15,12 @@ public class TeamData {
 		return TeamNumber;
 	}
 
-	public int getELO() {
+	public float getELO() {
 		return ELO;
 	}
 	
-	public void setELO(int eLO) {
-		ELO = eLO;
+	public void AdjustELO(float delta) {
+		ELO += delta;
 	}
 	
 	public String getKey() {

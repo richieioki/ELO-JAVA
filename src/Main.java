@@ -12,7 +12,8 @@ public class Main {
 		try {
 			calculator.Initalize();			
 			searcher.RunSearch("frc1197");
-			
+			System.out.println("---------------------------PRINTING CALCULATED ELOs--------------------------------------");
+			calculator.PrintAllELO();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.err.print("ISSUE CONNECTING TO SERVER");
