@@ -1,17 +1,21 @@
 import java.io.IOException;
-
-import Torobts.ELO.TBAConnector;
+import Torobts.ELO.*;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TBAConnector connection = new TBAConnector();
+		ELOCalculator calculator = new ELOCalculator(connection);
+		ExecuteSearch searcher = new ExecuteSearch(calculator, connection);
 		
 		try {
-			connection.run("https://www.thebluealliance.com/api/v3/team/frc1197/event/2004ca/matches/simple");
+			calculator.Initalize();			
+			searcher.RunSearch("frc1197");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.err.print("ISSUE CONNECTING TO SERVER");
 			e.printStackTrace();
 		}
 	}
