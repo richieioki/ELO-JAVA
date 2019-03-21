@@ -2,6 +2,8 @@ package Torobts.ELO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import org.json.JSONArray;
@@ -35,7 +37,7 @@ public class ELOCalculator {
 		for (int i = 0; i < TorbotsEvents.length(); i++) {
 			JSONObject event = (JSONObject) TorbotsEvents.get(i);
 			if (event.get("name").toString().contains("Regional")
-					&& Integer.parseInt(event.get("year").toString()) >= 2003 && 
+					&& Integer.parseInt(event.get("year").toString()) >= 2016 && 
 					Integer.parseInt(event.get("year").toString()) != 2019) {
 				String key = event.get("key").toString();
 				TorbotEventKeys.add(key);
@@ -61,7 +63,7 @@ public class ELOCalculator {
 		for (int i = 0; i < RawEvents.length(); i++) {
 			JSONObject event = (JSONObject) RawEvents.get(i);
 			if (event.get("name").toString().contains("Regional")
-					&& Integer.parseInt(event.get("year").toString()) >= 2003 && 
+					&& Integer.parseInt(event.get("year").toString()) >= 2016 && 
 					Integer.parseInt(event.get("year").toString()) != 2019) {
 				String key = event.get("key").toString();
 				Events.add(key);
@@ -189,17 +191,25 @@ public class ELOCalculator {
 					System.err.println("DIDN'T FIND TEAM " + BLUE_KEYS[i]);
 				}
 			}
-		} else {
-			System.err.println("IN CORRECT RESULT " + RESULT);
-		}
-
+		} 
 	}
 
 	public void PrintAllELO() {
 
+		Collections.sort(Teams, new SortByELO());
+		
 		for (int i = 0; i < Teams.size(); i++) {
 			System.out.println("Team : " + Teams.get(i).getKey() + " ELO : " + Teams.get(i).getELO());
 		}
+	}
+	
+	class SortByELO implements Comparator<TeamData> {
 
+		@Override
+		public int compare(TeamData team1, TeamData team2) {
+			
+			return (int)(team1.getELO() - team2.getELO());
+		}
+		
 	}
 }

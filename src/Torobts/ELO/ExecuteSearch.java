@@ -33,7 +33,6 @@ public class ExecuteSearch {
 		}
 
 		for (int i = 0; i < Events.size(); i++) {
-			// get matches for Torbots
 			JSONArray Matches = m_connection
 					.run(BASE_URL + "/team/" + TeamKey + "/event/" + Events.poll().trim() + "/matches/simple");
 
@@ -59,7 +58,6 @@ public class ExecuteSearch {
 						m_calculator.NewTeam(RED_TEAMKEYS.getString(z).trim());
 
 						// calculate ELO for this new team
-						//System.out.println("ADDING NEW TEAM " + RED_TEAMKEYS.getString(z));
 						RunSearch(RED_TEAMKEYS.getString(z));
 					}
 
@@ -67,16 +65,12 @@ public class ExecuteSearch {
 					RedELO += m_calculator.GetELO(RED_TEAMKEYS.getString(z).trim());
 				}
 
-				// System.out.println("RED ELO FOR MATCH " + Match.getInt("match_number") + " is
-				// " + RedELO);
-
 				// check if blue have ELO
 				for (int z = 0; z < BLUE_TEAMKEYS.length(); z++) {
 					if (m_calculator.isNewTeam(BLUE_TEAMKEYS.getString(z))) {
 						m_calculator.NewTeam(BLUE_TEAMKEYS.getString(z));
 
 						// calculate ELO for this new team
-						//System.out.println("ADDING NEW TEAM " + BLUE_TEAMKEYS.getString(z));
 						RunSearch(BLUE_TEAMKEYS.getString(z).trim());
 					}
 
@@ -84,39 +78,35 @@ public class ExecuteSearch {
 					BlueELO += m_calculator.GetELO(RED_TEAMKEYS.getString(z).trim());
 				}
 
-				// System.out.println("BLUE ELO FOR MATCH " + Match.getInt("match_number") + "
-				// is " + BlueELO);
-
 				// completed calculating the ELOs for the matches
-				RedAverage = RedELO / RED_TEAMKEYS.length();
-				BlueAverage = BlueELO / BLUE_TEAMKEYS.length();
+				if (RED_TEAMKEYS.length() == 0 || BLUE_TEAMKEYS.length() == 0) {
+					System.err.println("Tried to divide by zero for teams list.  BLUE : " + BLUE_TEAMKEYS.length()
+							+ "  RED : " + RED_TEAMKEYS.length());
+				} else {
+					RedAverage = RedELO / RED_TEAMKEYS.length();
+					BlueAverage = BlueELO / BLUE_TEAMKEYS.length();
 
-				float RedWinPercent, BlueWinPercent;
-				float[] percentages = m_calculator.CalculateWinPercentages(RedAverage, BlueAverage);
-				RedWinPercent = percentages[0];
-				BlueWinPercent = percentages[1];
+					float RedWinPercent, BlueWinPercent;
+					float[] percentages = m_calculator.CalculateWinPercentages(RedAverage, BlueAverage);
+					RedWinPercent = percentages[0];
+					BlueWinPercent = percentages[1];
 
-				// Next get the actual result of the match so that we can change the ELO of the
-				// teams;
-				//System.out.println("RED WIN PERCENTAGE " + RedWinPercent);
-				//System.out.println("BLUE WIN PERCENTAGE " + BlueWinPercent);
-				float delta = Math.abs(32 * (1 - RedWinPercent));
-				//System.out.println("THE DELTA Change in elo is " + delta);
+					// Calculating the delta based on RedWinPercentage
+					float delta = Math.abs(32 * (1 - RedWinPercent));
 
-				String[] r_keys = new String[RED_TEAMKEYS.length()];
-				String[] b_keys = new String[BLUE_TEAMKEYS.length()];
+					String[] r_keys = new String[RED_TEAMKEYS.length()];
+					String[] b_keys = new String[BLUE_TEAMKEYS.length()];
 
-				for (int r = 0; r < RED_TEAMKEYS.length(); r++) {
-					r_keys[r] = RED_TEAMKEYS.getString(r);
+					for (int r = 0; r < RED_TEAMKEYS.length(); r++) {
+						r_keys[r] = RED_TEAMKEYS.getString(r);
+					}
+
+					for (int b = 0; b < BLUE_TEAMKEYS.length(); b++) {
+						b_keys[b] = BLUE_TEAMKEYS.getString(b);
+					}
+					m_calculator.ExecuteMatchResult(r_keys, b_keys, RESULT, delta);
 				}
-
-				for (int b = 0; b < BLUE_TEAMKEYS.length(); b++) {
-					b_keys[b] = BLUE_TEAMKEYS.getString(b);
-				}
-
-				m_calculator.ExecuteMatchResult(r_keys, b_keys, RESULT, delta);
 			}
-
 		}
 	}
 }
