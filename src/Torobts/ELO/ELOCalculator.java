@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import org.apache.commons.csv.CSVPrinter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -37,8 +39,8 @@ public class ELOCalculator {
 		for (int i = 0; i < TorbotsEvents.length(); i++) {
 			JSONObject event = (JSONObject) TorbotsEvents.get(i);
 			if (event.get("name").toString().contains("Regional")
-					&& Integer.parseInt(event.get("year").toString()) >= 2016 && 
-					Integer.parseInt(event.get("year").toString()) != 2019) {
+					&& Integer.parseInt(event.get("year").toString()) >= 2016
+					&& Integer.parseInt(event.get("year").toString()) != 2019) {
 				String key = event.get("key").toString();
 				TorbotEventKeys.add(key);
 			}
@@ -63,8 +65,8 @@ public class ELOCalculator {
 		for (int i = 0; i < RawEvents.length(); i++) {
 			JSONObject event = (JSONObject) RawEvents.get(i);
 			if (event.get("name").toString().contains("Regional")
-					&& Integer.parseInt(event.get("year").toString()) >= 2016 && 
-					Integer.parseInt(event.get("year").toString()) != 2019) {
+					&& Integer.parseInt(event.get("year").toString()) >= 2016
+					&& Integer.parseInt(event.get("year").toString()) != 2019) {
 				String key = event.get("key").toString();
 				Events.add(key);
 			}
@@ -145,10 +147,10 @@ public class ELOCalculator {
 			// find the red teams and increase ELO by delta
 			for (int i = 0; i < RED_KEYS.length; i++) {
 				TeamData team = GetTeamData(RED_KEYS[i]);
-				if (team != null) {					
+				if (team != null) {
 					team.AdjustELO(Math.abs(delta));
-					//System.out.println("ADJUSTING ELO FOR RED " + team.getKey());
-					//System.out.println("NEW ELO IS " + team.getELO());
+					// System.out.println("ADJUSTING ELO FOR RED " + team.getKey());
+					// System.out.println("NEW ELO IS " + team.getELO());
 				} else {
 					System.err.println("DIDN'T FIND TEAM " + RED_KEYS[i]);
 				}
@@ -159,8 +161,8 @@ public class ELOCalculator {
 				TeamData team = GetTeamData(BLUE_KEYS[i]);
 				if (team != null) {
 					team.AdjustELO(-Math.abs(delta));
-					//System.out.println("ADJUSTING ELO FOR BLUE " + team.getKey());
-					//System.out.println("NEW ELO IS " + team.getELO());
+					// System.out.println("ADJUSTING ELO FOR BLUE " + team.getKey());
+					// System.out.println("NEW ELO IS " + team.getELO());
 				} else {
 					System.err.println("DIDN'T FIND TEAM " + BLUE_KEYS[i]);
 				}
@@ -172,8 +174,8 @@ public class ELOCalculator {
 				TeamData team = GetTeamData(RED_KEYS[i]);
 				if (team != null) {
 					team.AdjustELO(-Math.abs(delta));
-					//System.out.println("ADJUSTING ELO FOR RED " + team.getKey());
-					//System.out.println("NEW ELO IS " + team.getELO());
+					// System.out.println("ADJUSTING ELO FOR RED " + team.getKey());
+					// System.out.println("NEW ELO IS " + team.getELO());
 				} else {
 					System.err.println("DIDN'T FIND TEAM " + RED_KEYS[i]);
 				}
@@ -185,31 +187,39 @@ public class ELOCalculator {
 				TeamData team = GetTeamData(BLUE_KEYS[i]);
 				if (team != null) {
 					team.AdjustELO(Math.abs(delta));
-					//System.out.println("ADJUSTING ELO FOR BLUE " + team.getKey());
-					//System.out.println("NEW ELO IS " + team.getELO());
+					// System.out.println("ADJUSTING ELO FOR BLUE " + team.getKey());
+					// System.out.println("NEW ELO IS " + team.getELO());
 				} else {
 					System.err.println("DIDN'T FIND TEAM " + BLUE_KEYS[i]);
 				}
 			}
-		} 
+		}
 	}
 
 	public void PrintAllELO() {
 
 		Collections.sort(Teams, new SortByELO());
-		
+
 		for (int i = 0; i < Teams.size(); i++) {
 			System.out.println("Team : " + Teams.get(i).getKey() + " ELO : " + Teams.get(i).getELO());
 		}
 	}
-	
+
+	public void PrintALLELO(CSVPrinter printer) throws IOException {
+		Collections.sort(Teams, new SortByELO());
+
+		for (int i = 0; i < Teams.size(); i++) {
+			printer.printRecord(Teams.get(i).getKey(), Teams.get(i).getELO());
+		}
+	}
+
 	class SortByELO implements Comparator<TeamData> {
 
 		@Override
 		public int compare(TeamData team1, TeamData team2) {
-			
-			return (int)(team1.getELO() - team2.getELO());
+
+			return (int) (team1.getELO() - team2.getELO());
 		}
-		
+
 	}
 }
