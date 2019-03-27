@@ -3,8 +3,6 @@ package Torobts.ELO;
 import java.io.IOException;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
 import okhttp3.*;
 
 public class TBAConnector {
