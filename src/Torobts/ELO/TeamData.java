@@ -21,6 +21,11 @@ public class TeamData {
 	
 	public void AdjustELO(float delta) {
 		ELO += delta;
+		
+		//Inserting min value so that team's don't have negative ELO rankings
+		if(ELO < 1000) {
+			ELO = 1000;
+		}
 	}
 	
 	public String getKey() {
