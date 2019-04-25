@@ -73,9 +73,9 @@ public class MatchDataCollector {
 						
 						if(bluealliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 							averages.get(j).AddMatch();
-							averages.get(j).IncreaseCargoScore(score);
-							averages.get(j).IncreaseClimbScore(score);
-							averages.get(j).IncreaseHatchScore(score);
+							//averages.get(j).IncreaseCargoScore(score);
+							//averages.get(j).IncreaseClimbScore(score);
+							//averages.get(j).IncreaseHatchScore(score);
 						} else if(redalliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 							System.out.println("FOUND RED");
 						} else {
