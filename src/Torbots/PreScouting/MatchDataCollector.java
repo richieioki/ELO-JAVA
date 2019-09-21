@@ -91,7 +91,7 @@ public class MatchDataCollector {
 								System.err.println("COULDN'T FIND TEAM");
 							}
 						} catch (JSONException e) {
-							System.err.println("SCORE BREAK DOWN IS NULL : " + match);
+							//System.err.println("SCORE BREAK DOWN IS NULL : " + match);
 						}
 					}
 
@@ -101,6 +101,7 @@ public class MatchDataCollector {
 			}
 		}
 
+		
 		// print out all the averages
 		TeamAverages currentteam;
 		for (int l = 0; l < averages.size(); l++) {

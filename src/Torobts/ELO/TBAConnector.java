@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import okhttp3.*;
 
 public class TBAConnector {
+	
 	private OkHttpClient client = new OkHttpClient();
 	
 	public JSONArray run(String url) throws IOException {
@@ -19,6 +20,7 @@ public class TBAConnector {
 			String jsonraw = response.body().string();
 			JSONArray json = new JSONArray(jsonraw);			
 			return json;
+			
 		} else {
 			System.err.print("NETWORK ERROR " + response.code());
 			return new JSONArray();
