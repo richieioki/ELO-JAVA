@@ -92,7 +92,10 @@ public class MatchDataCollector {
 								System.err.println("COULDN'T FIND TEAM");
 							}
 						} catch (JSONException e) {
+<<<<<<< HEAD
 							//e.printStackTrace();
+=======
+>>>>>>> branch 'master' of https://github.com/richieioki/ELO-JAVA.git
 							//System.err.println("SCORE BREAK DOWN IS NULL : " + match);
 						}
 					}
@@ -103,6 +106,7 @@ public class MatchDataCollector {
 			}
 		}
 
+		
 		// print out all the averages
 		TeamAverages currentteam;
 		for (int l = 0; l < averages.size(); l++) {

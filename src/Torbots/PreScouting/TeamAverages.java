@@ -40,14 +40,23 @@ public class TeamAverages {
 	}
 	
 	public float AvgHatchScore() {
-		return total_hatchpoints/total_matches;
+		if(total_matches > 0)
+			return total_hatchpoints/total_matches;
+		else
+			return 0;
 	}
 	
 	public float AvgCargoScore() {
-		return total_cargopoints/total_matches;
+		if(total_matches > 0)
+			return total_cargopoints/total_matches;
+		else 
+			return 0;
 	}
 	
 	public float AvgClimbScore() {
-		return total_climbpoints/total_matches;
+		if(total_matches > 0)
+			return total_climbpoints/total_matches;
+		else 
+			return 0;
 	}
 }
