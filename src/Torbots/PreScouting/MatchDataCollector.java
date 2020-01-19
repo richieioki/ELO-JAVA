@@ -27,12 +27,12 @@ public class MatchDataCollector {
 	public void PrintRawList() {
 		for (int i = 0; i < RawTeamList.length(); i++) {
 			System.out.println(RawTeamList.get(i));
-			// JSONObject obj = (JSONObject) RawTeamList.get(i);
+			JSONObject obj = (JSONObject) RawTeamList.get(i);
 		}
 	}
 
 	public void CalculateAverages() throws IOException {
-		// PrintRawList();
+		//PrintRawList();
 
 		// Finding all the teams that are attending LV regional
 		for (int i = 0; i < RawTeamList.length(); i++) {
@@ -69,6 +69,7 @@ public class MatchDataCollector {
 						redalliance = red.getJSONArray("team_keys");
 
 						try {
+							System.out.println(match.toString());
 							JSONObject breakdown = match.getJSONObject("score_breakdown");
 							
 							averages.get(j).AddMatch();
@@ -91,7 +92,8 @@ public class MatchDataCollector {
 								System.err.println("COULDN'T FIND TEAM");
 							}
 						} catch (JSONException e) {
-							System.err.println("SCORE BREAK DOWN IS NULL : " + match);
+							//e.printStackTrace();
+							//System.err.println("SCORE BREAK DOWN IS NULL : " + match);
 						}
 					}
 

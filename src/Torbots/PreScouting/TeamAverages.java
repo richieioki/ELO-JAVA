@@ -1,7 +1,7 @@
 package Torbots.PreScouting;
 
 /**
- * Container class for holding info for Jeffery
+ * Container class for holding info for Jeffrey
  */
 public class TeamAverages {
 	
