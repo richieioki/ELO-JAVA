@@ -17,16 +17,17 @@ public class MatchDataCollector {
 	private List<TeamAverages> averages;
 
 	public MatchDataCollector(TBAConnector connector, String eventkey) throws IOException {
+		System.out.println("Trying to connect to TBA");
 		m_connector = connector;
 		RawTeamList = m_connector.run("https://www.thebluealliance.com/api/v3/event/" + eventkey + "/teams");
-
+		
 		m_eventkey = eventkey;
 		averages = new LinkedList<TeamAverages>();
 	}
 
 	public void PrintRawList() {
 		for (int i = 0; i < RawTeamList.length(); i++) {
-			System.out.println(RawTeamList.get(i));
+			//System.out.println(RawTeamList.get(i));
 			JSONObject obj = (JSONObject) RawTeamList.get(i);
 		}
 	}
@@ -69,7 +70,7 @@ public class MatchDataCollector {
 						redalliance = red.getJSONArray("team_keys");
 
 						try {
-							System.out.println(match.toString());
+							//System.out.println(match.toString());
 							JSONObject breakdown = match.getJSONObject("score_breakdown");
 							
 							averages.get(j).AddMatch();
@@ -92,10 +93,7 @@ public class MatchDataCollector {
 								System.err.println("COULDN'T FIND TEAM");
 							}
 						} catch (JSONException e) {
-<<<<<<< HEAD
 							//e.printStackTrace();
-=======
->>>>>>> branch 'master' of https://github.com/richieioki/ELO-JAVA.git
 							//System.err.println("SCORE BREAK DOWN IS NULL : " + match);
 						}
 					}

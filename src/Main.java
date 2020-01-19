@@ -47,6 +47,7 @@ public class Main {
 			}
 		} else {
 			try {
+				System.out.println("Match Connector");
 				MatchDataCollector collector = new MatchDataCollector(connection, args[1]);				
 				collector.CalculateAverages();
 				
