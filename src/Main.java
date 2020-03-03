@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import Torbots.PreScouting.MatchDataCollector;
-import Torbots.PreScouting.TeamAverages;
+import Torbots.DatabaseScouting.MatchDataCollector;
+import Torbots.DatabaseScouting.TeamAverages;
 import Torobts.ELO.*;
 
 public class Main {
@@ -64,11 +64,10 @@ public class Main {
 				List<TeamAverages> m_list = collector.GetAverages();
 				
 				for(TeamAverages t : m_list) {
-					printer.printRecord(t.ReturnTeamKey(), t.AvgCargoScore(), t.AvgClimbScore(), t.AvgHatchScore());
+					printer.printRecord(t.ReturnTeamKey(), "", "", "");
 				}
 				
 				System.out.print("Printing File");				
-				// ending file
 				printer.flush();
 				printer.close();
 				

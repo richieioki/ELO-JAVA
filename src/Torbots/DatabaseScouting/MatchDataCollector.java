@@ -1,4 +1,4 @@
-package Torbots.PreScouting;
+package Torbots.DatabaseScouting;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -82,16 +82,16 @@ public class MatchDataCollector {
 							if (bluealliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 								JSONObject bluescores = breakdown.getJSONObject("blue");
 
-								averages.get(j).IncreaseCargoScore(bluescores.getInt("teleopCellPoints"));
-								averages.get(j).IncreaseClimbScore(bluescores.getInt("tba_numRobotsHanging"));
-								averages.get(j).IncreaseHatchScore(bluescores.getInt("autoPoints"));
+								//averages.get(j).IncreaseCargoScore(bluescores.getInt("teleopCellPoints"));
+								//averages.get(j).IncreaseClimbScore(bluescores.getInt("tba_numRobotsHanging"));
+								//averages.get(j).IncreaseHatchScore(bluescores.getInt("autoPoints"));
 								
 							} else if (redalliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 								JSONObject redscores = breakdown.getJSONObject("red");
 
-								averages.get(j).IncreaseCargoScore(redscores.getInt("teleopCellPoints"));
-								averages.get(j).IncreaseClimbScore(redscores.getInt("tba_numRobotsHanging"));
-								averages.get(j).IncreaseHatchScore(redscores.getInt("autoPoints"));
+								//averages.get(j).IncreaseCargoScore(redscores.getInt("teleopCellPoints"));
+								//averages.get(j).IncreaseClimbScore(redscores.getInt("tba_numRobotsHanging"));
+								//averages.get(j).IncreaseHatchScore(redscores.getInt("autoPoints"));
 								
 							} else {
 								System.err.println("COULDN'T FIND TEAM");
