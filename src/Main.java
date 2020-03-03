@@ -53,12 +53,13 @@ public class Main {
 			try {
 				System.out.println("Match Connector");
 				MatchDataCollector collector = new MatchDataCollector(connection, args[1]);			
+				System.out.println("Calculating Averages");
 				collector.CalculateAverages();
 				
 				File dir = new File("DATA");
 				dir.mkdir();
 				FileWriter out = new FileWriter(dir.getAbsolutePath() + "/" + args[1] + "data.csv");
-				CSVPrinter printer = CSVFormat.EXCEL.withHeader("Team Number", "cargoPoints", "habClimbPoints", "hatchPanelPoints").print(out);
+				CSVPrinter printer = CSVFormat.EXCEL.withHeader("Team Number", "teleopCellPoints", "tba_numRobotsHanging", "autoPoints").print(out);
 				
 				List<TeamAverages> m_list = collector.GetAverages();
 				

@@ -23,6 +23,10 @@ public class MatchDataCollector {
 		
 		m_eventkey = eventkey;
 		averages = new LinkedList<TeamAverages>();
+		
+		if(RawTeamList.length() > 0) {
+			System.out.println("Connected and got a team list of " + RawTeamList.length());
+		}
 	}
 
 	public void PrintRawList() {
@@ -33,7 +37,7 @@ public class MatchDataCollector {
 	}
 
 	public void CalculateAverages() throws IOException {
-		PrintRawList();
+		//PrintRawList();
 
 		// Finding all the teams that are attending LV regional
 		for (int i = 0; i < RawTeamList.length(); i++) {
@@ -47,11 +51,11 @@ public class MatchDataCollector {
 		for (int j = 0; j < averages.size(); j++) {
 			// get all the regional events this team has played at
 			JSONArray events = m_connector.run(
-					"https://www.thebluealliance.com/api/v3/team/" + averages.get(j).ReturnTeamKey() + "/events/2019");
+					"https://www.thebluealliance.com/api/v3/team/" + averages.get(j).ReturnTeamKey() + "/events/2020");
 
 			for (int z = 0; z < events.length(); z++) {
 				JSONObject event = (JSONObject) events.get(z);
-				if (!event.getString("key").contains("2019nvlv")) {
+				if (!event.getString("key").contains(m_eventkey)) {
 					// get all the matches the team has played at those events
 					String EventKey = event.getString("key");
 					JSONArray matches = m_connector.run("https://www.thebluealliance.com/api/v3/team/"
@@ -78,22 +82,22 @@ public class MatchDataCollector {
 							if (bluealliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 								JSONObject bluescores = breakdown.getJSONObject("blue");
 
-								averages.get(j).IncreaseCargoScore(bluescores.getInt("cargoPoints"));
-								averages.get(j).IncreaseClimbScore(bluescores.getInt("habClimbPoints"));
-								averages.get(j).IncreaseHatchScore(bluescores.getInt("hatchPanelPoints"));
+								averages.get(j).IncreaseCargoScore(bluescores.getInt("teleopCellPoints"));
+								averages.get(j).IncreaseClimbScore(bluescores.getInt("tba_numRobotsHanging"));
+								averages.get(j).IncreaseHatchScore(bluescores.getInt("autoPoints"));
 								
 							} else if (redalliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 								JSONObject redscores = breakdown.getJSONObject("red");
 
-								averages.get(j).IncreaseCargoScore(redscores.getInt("cargoPoints"));
-								averages.get(j).IncreaseClimbScore(redscores.getInt("habClimbPoints"));
-								averages.get(j).IncreaseHatchScore(redscores.getInt("hatchPanelPoints"));
+								averages.get(j).IncreaseCargoScore(redscores.getInt("teleopCellPoints"));
+								averages.get(j).IncreaseClimbScore(redscores.getInt("tba_numRobotsHanging"));
+								averages.get(j).IncreaseHatchScore(redscores.getInt("autoPoints"));
 								
 							} else {
 								System.err.println("COULDN'T FIND TEAM");
 							}
 						} catch (JSONException e) {
-							//e.printStackTrace();
+							e.printStackTrace();
 							//System.err.println("SCORE BREAK DOWN IS NULL : " + match);
 						}
 					}
