@@ -64,10 +64,11 @@ public class Main {
 				List<TeamAverages> m_list = collector.GetAverages();
 				
 				for(TeamAverages t : m_list) {
-					printer.printRecord(t.ReturnTeamKey(), "", "", "");
+					printer.printRecord(t.ReturnTeamKey(), 0, 0, 0);
 				}
 				
 				System.out.print("Printing File");				
+				// ending file
 				printer.flush();
 				printer.close();
 				

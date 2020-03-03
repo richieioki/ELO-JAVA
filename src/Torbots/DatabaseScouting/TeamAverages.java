@@ -5,8 +5,8 @@ package Torbots.DatabaseScouting;
  */
 public class TeamAverages {
 	
-	private String TeamKey;
-	private int total_matches;
+	protected String TeamKey;
+	protected int total_matches;
 
 	
 	public TeamAverages(String key) {
@@ -22,4 +22,7 @@ public class TeamAverages {
 		total_matches++;
 	}
 	
+	public int GetTotalMatches() {
+		return total_matches;
+	}
 }
