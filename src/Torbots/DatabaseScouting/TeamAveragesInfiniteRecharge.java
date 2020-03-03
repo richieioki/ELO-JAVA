@@ -13,27 +13,45 @@ public class TeamAveragesInfiniteRecharge extends TeamAverages {
 		super(key);
 		// TODO Auto-generated constructor stub
 	}
-	public void AddCargoScore(int score) {
-		//CargoScore += score;
+	
+	public void AddAutoInitPoints(int score) {
+		AutoInitLinePoints += score;
 	}
 	
-	public void AddClimbScore(int score) {
-		//ClimbScore += score;
-	}
-
-	public void AddHatchScore(int score) {
-		//HatchScore += score;
+	public void AddAutoCells(int score) {
+		AutoCells += score;
 	}
 	
-	/*public float AvgCargoScore() {
-		return CargoScore / total_matches;
+	public void AddTeleCells(int score) {
+		TeleCells += score;
 	}
 	
-	public float AvgClimbScore() {
-		return ClimbScore / total_matches;
+	public void AddControlPanelPoints(int score) {
+		ControlPanelPoints += score;
 	}
 	
-	public float AvgHatchScore() {
-		return HatchScore / total_matches;
-	}*/
+	public void AddEndGamePoints(int score) {
+		EndGamePoints += score;
+	}
+	
+	public float AvgAutoInitPoints() {
+		return (float)AutoInitLinePoints / Total_Matches;
+	}
+	
+	public float AvgAutoCells() {
+		return (float)AutoCells / Total_Matches;
+	}
+	
+	public float AvgTeleCells() {
+		return (float)TeleCells / Total_Matches;
+	}
+	
+	public float AvgControlPanelPoints() {
+		return (float)ControlPanelPoints / Total_Matches;
+	}
+	
+	public float AvgEndGamePoints() {
+		return (float)EndGamePoints / Total_Matches;
+	}
+	
 }

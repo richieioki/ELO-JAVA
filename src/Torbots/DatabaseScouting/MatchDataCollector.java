@@ -20,11 +20,11 @@ public class MatchDataCollector {
 		System.out.println("Trying to connect to TBA");
 		m_connector = connector;
 		RawTeamList = m_connector.run("https://www.thebluealliance.com/api/v3/event/" + eventkey + "/teams");
-		
+
 		m_eventkey = eventkey;
 		averages = new LinkedList<TeamAverages>();
-		
-		if(RawTeamList.length() > 0) {
+
+		if (RawTeamList.length() > 0) {
 			System.out.println("Connected and got a team list of " + RawTeamList.length());
 		}
 	}
@@ -37,85 +37,86 @@ public class MatchDataCollector {
 	}
 
 	public void CalculateAverages() throws IOException {
-		//PrintRawList();
+		// PrintRawList();
 
-		// Finding all the teams that are attending LV regional
 		for (int i = 0; i < RawTeamList.length(); i++) {
 			JSONObject obj = (JSONObject) RawTeamList.get(i);
 
 			String key = obj.getString("key");
-			TeamAverages avg = new TeamAverages(key);
+			//System.out.println(key);
+			TeamAverages avg = new TeamAveragesInfiniteRecharge(key);
 			averages.add(avg);
 		}
 
 		for (int j = 0; j < averages.size(); j++) {
 			// get all the regional events this team has played at
-			JSONArray events = m_connector.run(
-					"https://www.thebluealliance.com/api/v3/team/" + averages.get(j).ReturnTeamKey() + "/events/2020");
+			// JSONArray events =
+			// m_connector.run("https://www.thebluealliance.com/api/v3/team/" +
+			// averages.get(j).ReturnTeamKey() + "/events/2020");
 
-			for (int z = 0; z < events.length(); z++) {
-				JSONObject event = (JSONObject) events.get(z);
-				if (!event.getString("key").contains(m_eventkey)) {
-					// get all the matches the team has played at those events
-					String EventKey = event.getString("key");
-					JSONArray matches = m_connector.run("https://www.thebluealliance.com/api/v3/team/"
-							+ averages.get(j).ReturnTeamKey() + "/event/" + EventKey + "/matches");
+			JSONArray matches = m_connector.run("https://www.thebluealliance.com/api/v3/team/"
+					+ averages.get(j).ReturnTeamKey() + "/event/" + m_eventkey + "/matches");
 
-					// Add Match data to the averages
-					for (int q = 0; q < matches.length(); q++) {
-						//System.out.println(matches.get(q));
-						JSONObject match = matches.getJSONObject(q);
-						JSONObject alliances = match.getJSONObject("alliances");
-						JSONObject blue, red;
-						blue = alliances.getJSONObject("blue");
-						red = alliances.getJSONObject("red");
-						JSONArray bluealliance, redalliance;
-						bluealliance = blue.getJSONArray("team_keys");
-						redalliance = red.getJSONArray("team_keys");
+			// Add Match data to the averages
+			for (int q = 0; q < matches.length(); q++) {
+				//System.out.println(matches.get(q));
+				JSONObject match = matches.getJSONObject(q);
+				JSONObject alliances = match.getJSONObject("alliances");
+				JSONObject blue, red;
+				blue = alliances.getJSONObject("blue");
+				red = alliances.getJSONObject("red");
+				JSONArray bluealliance, redalliance;
+				bluealliance = blue.getJSONArray("team_keys");
+				redalliance = red.getJSONArray("team_keys");
 
-						try {
-							//System.out.println(match.toString());
-							JSONObject breakdown = match.getJSONObject("score_breakdown");
-							
-							averages.get(j).AddMatch();
+				try {
+					// System.out.println(match.toString());
+					JSONObject breakdown = match.getJSONObject("score_breakdown");
 
-							if (bluealliance.toString().contains(averages.get(j).ReturnTeamKey())) {
-								JSONObject bluescores = breakdown.getJSONObject("blue");
+					averages.get(j).AddMatch();
 
-								//averages.get(j).IncreaseCargoScore(bluescores.getInt("teleopCellPoints"));
-								//averages.get(j).IncreaseClimbScore(bluescores.getInt("tba_numRobotsHanging"));
-								//averages.get(j).IncreaseHatchScore(bluescores.getInt("autoPoints"));
-								
-							} else if (redalliance.toString().contains(averages.get(j).ReturnTeamKey())) {
-								JSONObject redscores = breakdown.getJSONObject("red");
+					if (bluealliance.toString().contains(averages.get(j).ReturnTeamKey())) {
+						JSONObject bluescores = breakdown.getJSONObject("blue");
 
-								//averages.get(j).IncreaseCargoScore(redscores.getInt("teleopCellPoints"));
-								//averages.get(j).IncreaseClimbScore(redscores.getInt("tba_numRobotsHanging"));
-								//averages.get(j).IncreaseHatchScore(redscores.getInt("autoPoints"));
-								
-							} else {
-								System.err.println("COULDN'T FIND TEAM");
-							}
-						} catch (JSONException e) {
-							e.printStackTrace();
-							//System.err.println("SCORE BREAK DOWN IS NULL : " + match);
-						}
+						TeamAveragesInfiniteRecharge IR = (TeamAveragesInfiniteRecharge) averages.get(j);
+						IR.AddAutoInitPoints(bluescores.getInt("autoInitLinePoints"));
+						IR.AddAutoCells(bluescores.getInt("autoCellsBottom") + bluescores.getInt("autoCellsInner")
+								+ bluescores.getInt("autoCellsOuter"));
+						IR.AddTeleCells(bluescores.getInt("teleopCellsBottom") + bluescores.getInt("teleopCellsInner")
+								+ bluescores.getInt("teleopCellsOuter"));
+						IR.AddControlPanelPoints(bluescores.getInt("controlPanelPoints"));
+						IR.AddEndGamePoints(bluescores.getInt("endgamePoints"));
+						IR.AddMatch();
+
+					} else if (redalliance.toString().contains(averages.get(j).ReturnTeamKey())) {
+						JSONObject redscores = breakdown.getJSONObject("red");
+
+						TeamAveragesInfiniteRecharge IR = (TeamAveragesInfiniteRecharge) averages.get(j);
+						IR.AddAutoInitPoints(redscores.getInt("autoInitLinePoints"));
+						IR.AddAutoCells(redscores.getInt("autoCellsBottom") + redscores.getInt("autoCellsInner")
+								+ redscores.getInt("autoCellsOuter"));
+						IR.AddTeleCells(redscores.getInt("teleopCellsBottom") + redscores.getInt("teleopCellsInner")
+								+ redscores.getInt("teleopCellsOuter"));
+						IR.AddControlPanelPoints(redscores.getInt("controlPanelPoints"));
+						IR.AddEndGamePoints(redscores.getInt("endgamePoints"));
+						IR.AddMatch();
+
+					} else {
+						System.err.println("COULDN'T FIND TEAM");
 					}
-
-				} else {
-					// System.out.println("------Las Vegas Regional-----");
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
 			}
 		}
 
-		
 		// print out all the averages
 		TeamAverages currentteam;
 		for (int l = 0; l < averages.size(); l++) {
 			currentteam = averages.get(l);
 		}
 	}
-	
+
 	public List<TeamAverages> GetAverages() {
 		return averages;
 	}

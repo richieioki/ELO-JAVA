@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVPrinter;
 
 import Torbots.DatabaseScouting.MatchDataCollector;
 import Torbots.DatabaseScouting.TeamAverages;
+import Torbots.DatabaseScouting.TeamAveragesInfiniteRecharge;
 import Torobts.ELO.*;
 
 public class Main {
@@ -59,12 +60,13 @@ public class Main {
 				File dir = new File("DATA");
 				dir.mkdir();
 				FileWriter out = new FileWriter(dir.getAbsolutePath() + "/" + args[1] + "data.csv");
-				CSVPrinter printer = CSVFormat.EXCEL.withHeader("Team Number", "teleopCellPoints", "tba_numRobotsHanging", "autoPoints").print(out);
+				CSVPrinter printer = CSVFormat.EXCEL.withHeader("Team Number", "Auto Init Points", "Auto Cells", "Tele Cells", "Control Panel", "End Game Points").print(out);
 				
 				List<TeamAverages> m_list = collector.GetAverages();
 				
 				for(TeamAverages t : m_list) {
-					printer.printRecord(t.ReturnTeamKey(), 0, 0, 0);
+					TeamAveragesInfiniteRecharge IR = (TeamAveragesInfiniteRecharge)t;
+					printer.printRecord(t.ReturnTeamKey(), IR.AvgAutoInitPoints(), IR.AvgAutoCells(), IR.AvgTeleCells(), IR.AvgControlPanelPoints(), IR.AvgEndGamePoints());
 				}
 				
 				System.out.print("Printing File");				

@@ -26,14 +26,14 @@ public class TeamAveragesDeepSpace extends TeamAverages {
 	}
 	
 	public float AvgCargoScore() {
-		return CargoScore / total_matches;
+		return CargoScore / Total_Matches;
 	}
 	
 	public float AvgClimbScore() {
-		return ClimbScore / total_matches;
+		return ClimbScore / Total_Matches;
 	}
 	
 	public float AvgHatchScore() {
-		return HatchScore / total_matches;
+		return HatchScore / Total_Matches;
 	}
 }
