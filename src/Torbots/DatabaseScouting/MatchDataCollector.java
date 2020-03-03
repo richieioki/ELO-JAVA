@@ -86,7 +86,7 @@ public class MatchDataCollector {
 								+ bluescores.getInt("teleopCellsOuter"));
 						IR.AddControlPanelPoints(bluescores.getInt("controlPanelPoints"));
 						IR.AddEndGamePoints(bluescores.getInt("endgamePoints"));
-						IR.AddMatch();
+						
 
 					} else if (redalliance.toString().contains(averages.get(j).ReturnTeamKey())) {
 						JSONObject redscores = breakdown.getJSONObject("red");
@@ -99,7 +99,7 @@ public class MatchDataCollector {
 								+ redscores.getInt("teleopCellsOuter"));
 						IR.AddControlPanelPoints(redscores.getInt("controlPanelPoints"));
 						IR.AddEndGamePoints(redscores.getInt("endgamePoints"));
-						IR.AddMatch();
+						
 
 					} else {
 						System.err.println("COULDN'T FIND TEAM");

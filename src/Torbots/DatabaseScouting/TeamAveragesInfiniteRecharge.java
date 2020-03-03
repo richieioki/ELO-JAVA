@@ -51,6 +51,7 @@ public class TeamAveragesInfiniteRecharge extends TeamAverages {
 	}
 	
 	public float AvgEndGamePoints() {
+		System.out.println(TeamKey + " |||| " + EndGamePoints + "  ||  " + Total_Matches);
 		return (float)EndGamePoints / Total_Matches;
 	}
 	
