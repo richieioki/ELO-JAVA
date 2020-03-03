@@ -16,6 +16,10 @@ public class Main {
 
 		TBAConnector connection = new TBAConnector();
 
+		//############# SET RUN CONFIGURATION TO ARG1, ARG2
+		//############# ARG1 is either ELO or (Anything)
+		//############# ARG2 is the Event Key if you are not running ELO otherwise it is ignored
+		
 		if (args[0].contains("ELO")) {
 			// TODO Auto-generated method stub
 			ELOCalculator calculator = new ELOCalculator(connection);
@@ -48,7 +52,7 @@ public class Main {
 		} else {
 			try {
 				System.out.println("Match Connector");
-				MatchDataCollector collector = new MatchDataCollector(connection, args[1]);				
+				MatchDataCollector collector = new MatchDataCollector(connection, args[1]);			
 				collector.CalculateAverages();
 				
 				File dir = new File("DATA");

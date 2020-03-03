@@ -27,13 +27,13 @@ public class MatchDataCollector {
 
 	public void PrintRawList() {
 		for (int i = 0; i < RawTeamList.length(); i++) {
-			//System.out.println(RawTeamList.get(i));
+			System.out.println(RawTeamList.get(i));
 			JSONObject obj = (JSONObject) RawTeamList.get(i);
 		}
 	}
 
 	public void CalculateAverages() throws IOException {
-		//PrintRawList();
+		PrintRawList();
 
 		// Finding all the teams that are attending LV regional
 		for (int i = 0; i < RawTeamList.length(); i++) {
