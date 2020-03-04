@@ -110,11 +110,11 @@ public class MatchDataCollector {
 			}
 		}
 
-		// print out all the averages
-		TeamAverages currentteam;
-		for (int l = 0; l < averages.size(); l++) {
-			currentteam = averages.get(l);
-		}
+		// print out all the averages regional summary			
+		System.out.println("-----------------------------------------------");
+		System.out.println("--------------REGIONAL SUMMARY-----------------");
+		
+		System.out.println("-----------------------------------------------");
 	}
 
 	public List<TeamAverages> GetAverages() {

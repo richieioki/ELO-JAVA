@@ -68,8 +68,7 @@ public class Main {
 					TeamAveragesInfiniteRecharge IR = (TeamAveragesInfiniteRecharge)t;
 					printer.printRecord(t.ReturnTeamKey(), IR.AvgAutoInitPoints(), IR.AvgAutoCells(), IR.AvgTeleCells(), IR.AvgControlPanelPoints(), IR.AvgEndGamePoints());
 				}
-				
-				System.out.print("Printing File");				
+							
 				// ending file
 				printer.flush();
 				printer.close();

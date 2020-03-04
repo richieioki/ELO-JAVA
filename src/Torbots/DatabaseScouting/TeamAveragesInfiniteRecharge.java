@@ -9,6 +9,14 @@ public class TeamAveragesInfiniteRecharge extends TeamAverages {
 	private int ControlPanelPoints;
 	private int EndGamePoints;
 	
+	//Additional Data for deeper insight
+	private int Tele3Balls;
+	private int Tele2Balls;
+	private int Auto3Balls;
+	private int Auto2Balls;
+	private int AutoScore;
+	private int TeleScore;
+	
 	public TeamAveragesInfiniteRecharge(String key) {
 		super(key);
 		// TODO Auto-generated constructor stub
@@ -51,8 +59,55 @@ public class TeamAveragesInfiniteRecharge extends TeamAverages {
 	}
 	
 	public float AvgEndGamePoints() {
-		System.out.println(TeamKey + " |||| " + EndGamePoints + "  ||  " + Total_Matches);
 		return (float)EndGamePoints / Total_Matches;
 	}
+
+//////////////////////////ADDITIONAL DATA FUNCTIONS////////////////////////////////	
+	public void AddAutoPoints(int score) {
+		AutoScore += score;
+	}
 	
+	public void AddTeleScore(int score) {
+		TeleScore += score;
+	}
+	
+	public void AddAuto3Balls(int score) {
+		Auto3Balls += score;
+	}
+	
+	public void AddAuto2Balls(int score) {
+		Auto2Balls += score;
+	}
+	
+	public void AddTele3Balls(int score) {
+		Tele3Balls += score;
+	}
+	
+	public void AddTele2Balls(int score) {
+		Tele2Balls += score;
+	}
+	
+	public float AvgAutoPoints() {
+		return (float)AutoScore / Total_Matches;
+	}
+	
+	public float AvgTelePoints() {
+		return (float)TeleScore / Total_Matches;
+	}
+	
+	public float AvgAuto3Ball() {
+		return (float)Auto2Balls / Total_Matches;
+	}
+	
+	public float AvgAuto2Ball() {
+		return (float)Auto3Balls / Total_Matches;
+	}
+	
+	public float AvgTele3Ball() {
+		return (float)Tele3Balls / Total_Matches;
+	}
+	
+	public float AvgTele2Ball() {
+		return (float)Tele2Balls / Total_Matches;
+	}
 }
